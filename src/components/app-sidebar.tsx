@@ -1,169 +1,174 @@
-import * as React from "react"
+"use client"
 
-import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
+import * as React from "react"
+import {
+  AudioWaveform,
+  BookOpen,
+  Bot,
+  Command,
+  Frame,
+  GalleryVerticalEnd,
+  Map,
+  PieChart,
+  Settings2,
+  SquareTerminal,
+} from "lucide-react"
+
+import { NavMain } from "@/components/nav-main"
+import { NavProjects } from "@/components/nav-projects"
+import { NavUser } from "@/components/nav-user"
+import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
 
 // This is sample data.
 const data = {
-  versions: ["Pro Plan", "Enterprise", "Starter"],
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+  teams: [
+    {
+      name: "Acme Inc",
+      logo: GalleryVerticalEnd,
+      plan: "Enterprise",
+    },
+    {
+      name: "Acme Corp.",
+      logo: AudioWaveform,
+      plan: "Startup",
+    },
+    {
+      name: "Evil Corp.",
+      logo: Command,
+      plan: "Free",
+    },
+  ],
   navMain: [
     {
-      title: "Overview",
+      title: "Playground",
       url: "#",
+      icon: SquareTerminal,
+      isActive: true,
       items: [
         {
-          title: "Dashboard",
-          url: "/dashboard",
-          isActive: true,
+          title: "History",
+          url: "#",
         },
         {
-          title: "Analytics",
-          url: "/analytics",
+          title: "Starred",
+          url: "#",
+        },
+        {
+          title: "Settings",
+          url: "#",
         },
       ],
     },
     {
-      title: "Customer Management",
+      title: "Models",
       url: "#",
+      icon: Bot,
       items: [
         {
-          title: "Contacts",
-          url: "/contacts",
+          title: "Genesis",
+          url: "#",
         },
         {
-          title: "Companies",
-          url: "/companies",
+          title: "Explorer",
+          url: "#",
         },
         {
-          title: "Deals",
-          url: "/deals",
-        },
-        {
-          title: "Tasks",
-          url: "/tasks",
-        },
-        {
-          title: "Calendar",
-          url: "/calendar",
+          title: "Quantum",
+          url: "#",
         },
       ],
     },
     {
-      title: "Sales & Commerce",
+      title: "Documentation",
       url: "#",
+      icon: BookOpen,
       items: [
         {
-          title: "Products",
-          url: "/products",
+          title: "Introduction",
+          url: "#",
         },
         {
-          title: "Orders",
-          url: "/orders",
+          title: "Get Started",
+          url: "#",
         },
         {
-          title: "Invoices",
-          url: "/invoices",
+          title: "Tutorials",
+          url: "#",
         },
         {
-          title: "Payments",
-          url: "/payments",
-        },
-      ],
-    },
-    {
-      title: "Billing & Finance",
-      url: "#",
-      items: [
-        {
-          title: "Billing",
-          url: "/billing",
-        },
-        {
-          title: "Charges",
-          url: "/billing/charges",
-        },
-        {
-          title: "Subscriptions",
-          url: "/billing/subscriptions",
-        },
-      ],
-    },
-    {
-      title: "Communication",
-      url: "#",
-      items: [
-        {
-          title: "Messages",
-          url: "/messages",
-        },
-        {
-          title: "Templates",
-          url: "/templates",
+          title: "Changelog",
+          url: "#",
         },
       ],
     },
     {
       title: "Settings",
       url: "#",
+      icon: Settings2,
       items: [
         {
           title: "General",
-          url: "/settings",
+          url: "#",
         },
         {
           title: "Team",
-          url: "/team",
+          url: "#",
         },
         {
-          title: "Security",
-          url: "/security",
+          title: "Billing",
+          url: "#",
+        },
+        {
+          title: "Limits",
+          url: "#",
         },
       ],
+    },
+  ],
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
-        <SearchForm />
+        <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>{item.title}</a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )
