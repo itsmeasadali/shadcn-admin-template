@@ -1,113 +1,120 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { 
-  DollarSign, 
-  Users, 
-  TrendingUp, 
-  Target, 
-  Calendar, 
-  Phone, 
-  Mail, 
-  Building2,
-  MoreHorizontal,
-  ArrowUpRight,
-  ArrowDownRight,
-  Plus
-} from "lucide-react"
 
-export default function DashboardPage() {
+export default function Page() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-        <div className="flex items-center space-x-2">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Add Deal
-          </Button>
-        </div>
-      </div>
-      
-      {/* Overview Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <>
+      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">
+              Total Revenue
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$45,231.89</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-green-600 flex items-center">
-                <ArrowUpRight className="h-3 w-3 mr-1" />
-                +20.1%
-              </span>
-              from last month
+              +20.1% from last month
             </p>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Deals</CardTitle>
-            <Target className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">
+              Subscriptions
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2,350</div>
+            <div className="text-2xl font-bold">+2350</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-green-600 flex items-center">
-                <ArrowUpRight className="h-3 w-3 mr-1" />
-                +180.1%
-              </span>
-              from last month
+              +180.1% from last month
             </p>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">New Contacts</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Sales</CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <rect width="20" height="14" x="2" y="5" rx="2" />
+              <path d="M2 10h20" />
+            </svg>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+12,234</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-green-600 flex items-center">
-                <ArrowUpRight className="h-3 w-3 mr-1" />
-                +19%
-              </span>
-              from last month
+              +19% from last month
             </p>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24.5%</div>
+            <div className="text-2xl font-bold">+573</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-red-600 flex items-center">
-                <ArrowDownRight className="h-3 w-3 mr-1" />
-                -4.1%
-              </span>
-              from last month
+              +201 since last hour
             </p>
           </CardContent>
         </Card>
       </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        {/* Recent Sales */}
-        <Card className="col-span-4">
+      <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+        <Card className="xl:col-span-2">
           <CardHeader>
             <CardTitle>Recent Sales</CardTitle>
-            <CardDescription>You made 265 sales this month.</CardDescription>
+            <CardDescription>
+              You made 265 sales this month.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
@@ -173,98 +180,15 @@ export default function DashboardPage() {
             </div>
           </CardContent>
         </Card>
-
-        {/* Overview Chart Placeholder */}
-        <Card className="col-span-3">
+        <Card>
           <CardHeader>
             <CardTitle>Overview</CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
-            <div className="h-[300px] flex items-center justify-center text-muted-foreground">
-              Chart will be implemented with Recharts
-            </div>
+            <div className="h-[200px] bg-muted/50 rounded-xl" />
           </CardContent>
         </Card>
       </div>
-
-      {/* Recent Activities */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Activities</CardTitle>
-          <CardDescription>Your team's recent activities and updates.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Activity</TableHead>
-                <TableHead>Contact</TableHead>
-                <TableHead>Company</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">
-                  <div className="flex items-center">
-                    <Phone className="mr-2 h-4 w-4 text-blue-500" />
-                    Call completed
-                  </div>
-                </TableCell>
-                <TableCell>John Doe</TableCell>
-                <TableCell>Acme Corp</TableCell>
-                <TableCell>2024-01-15</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">Completed</Badge>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">
-                  <div className="flex items-center">
-                    <Mail className="mr-2 h-4 w-4 text-green-500" />
-                    Email sent
-                  </div>
-                </TableCell>
-                <TableCell>Jane Smith</TableCell>
-                <TableCell>Tech Solutions</TableCell>
-                <TableCell>2024-01-14</TableCell>
-                <TableCell>
-                  <Badge variant="outline">Sent</Badge>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">
-                  <div className="flex items-center">
-                    <Calendar className="mr-2 h-4 w-4 text-purple-500" />
-                    Meeting scheduled
-                  </div>
-                </TableCell>
-                <TableCell>Mike Johnson</TableCell>
-                <TableCell>Global Inc</TableCell>
-                <TableCell>2024-01-13</TableCell>
-                <TableCell>
-                  <Badge>Scheduled</Badge>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">
-                  <div className="flex items-center">
-                    <Building2 className="mr-2 h-4 w-4 text-orange-500" />
-                    Company added
-                  </div>
-                </TableCell>
-                <TableCell>Sarah Wilson</TableCell>
-                <TableCell>New Ventures</TableCell>
-                <TableCell>2024-01-12</TableCell>
-                <TableCell>
-                  <Badge variant="secondary">Added</Badge>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-    </div>
+    </>
   )
-} 
+}

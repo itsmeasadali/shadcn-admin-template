@@ -1,325 +1,303 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { 
-  Plus, 
-  Search, 
-  MoreHorizontal, 
-  Calendar,
-  Clock,
-  Edit,
-  Trash2,
-  Users,
-  CheckCircle,
-  AlertCircle,
-  Circle,
-  Flag
-} from "lucide-react"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { MoreHorizontal, Search, Plus } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 // Mock data for tasks
 const tasks = [
   {
     id: 1,
     title: "Follow up with Acme Corp",
-    description: "Schedule follow-up call to discuss contract details",
+    description: "Schedule meeting to discuss contract renewal",
     assignee: "John Doe",
-    assigneeAvatar: "/avatars/john-doe.jpg",
-    assigneeInitials: "JD",
     priority: "High",
     status: "In Progress",
-    dueDate: "2024-01-20",
-    company: "Acme Corp",
-    type: "Call"
+    dueDate: "2024-02-15",
+    avatar: "/avatars/01.png",
+    initials: "JD"
   },
   {
     id: 2,
-    title: "Send proposal to Tech Solutions",
-    description: "Prepare and send detailed project proposal",
+    title: "Prepare Q1 Sales Report",
+    description: "Compile sales data and create presentation",
     assignee: "Jane Smith",
-    assigneeAvatar: "/avatars/jane-smith.jpg",
-    assigneeInitials: "JS",
-    priority: "High",
+    priority: "Medium",
     status: "To Do",
-    dueDate: "2024-01-18",
-    company: "Tech Solutions",
-    type: "Email"
+    dueDate: "2024-02-20",
+    avatar: "/avatars/02.png",
+    initials: "JS"
   },
   {
     id: 3,
-    title: "Product demo for Global Inc",
-    description: "Conduct product demonstration for the leadership team",
+    title: "Product Demo for StartupXYZ",
+    description: "Showcase new features to potential client",
     assignee: "Mike Johnson",
-    assigneeAvatar: "/avatars/mike-johnson.jpg",
-    assigneeInitials: "MJ",
-    priority: "Medium",
-    status: "Scheduled",
-    dueDate: "2024-01-22",
-    company: "Global Inc",
-    type: "Meeting"
+    priority: "High",
+    status: "Completed",
+    dueDate: "2024-02-10",
+    avatar: "/avatars/03.png",
+    initials: "MJ"
   },
   {
     id: 4,
-    title: "Contract review",
-    description: "Review and finalize contract terms with legal team",
+    title: "Update CRM Database",
+    description: "Clean up duplicate contacts and companies",
     assignee: "Sarah Wilson",
-    assigneeAvatar: "/avatars/sarah-wilson.jpg",
-    assigneeInitials: "SW",
-    priority: "Medium",
+    priority: "Low",
     status: "In Progress",
-    dueDate: "2024-01-25",
-    company: "New Ventures",
-    type: "Review"
+    dueDate: "2024-02-25",
+    avatar: "/avatars/04.png",
+    initials: "SW"
   },
   {
     id: 5,
-    title: "Onboard new client",
-    description: "Complete onboarding process for Innovate Co",
+    title: "Client Onboarding Call",
+    description: "Welcome new client and setup account",
     assignee: "David Brown",
-    assigneeAvatar: "/avatars/david-brown.jpg",
-    assigneeInitials: "DB",
-    priority: "Low",
-    status: "Completed",
-    dueDate: "2024-01-15",
-    company: "Innovate Co",
-    type: "Onboarding"
-  },
-  {
-    id: 6,
-    title: "Market research analysis",
-    description: "Analyze market trends for Q1 strategy",
-    assignee: "Emily Davis",
-    assigneeAvatar: "/avatars/emily-davis.jpg",
-    assigneeInitials: "ED",
-    priority: "Low",
+    priority: "Medium",
     status: "To Do",
-    dueDate: "2024-01-30",
-    company: "Internal",
-    type: "Research"
+    dueDate: "2024-02-18",
+    avatar: "/avatars/05.png",
+    initials: "DB"
   }
 ]
 
-const getPriorityColor = (priority: string) => {
-  switch (priority) {
-    case "High": return "text-red-600"
-    case "Medium": return "text-yellow-600"
-    case "Low": return "text-green-600"
-    default: return "text-gray-600"
-  }
-}
-
-const getStatusIcon = (status: string) => {
-  switch (status) {
-    case "Completed": return <CheckCircle className="h-4 w-4 text-green-600" />
-    case "In Progress": return <Clock className="h-4 w-4 text-blue-600" />
-    case "Scheduled": return <Calendar className="h-4 w-4 text-purple-600" />
-    case "To Do": return <Circle className="h-4 w-4 text-gray-600" />
-    default: return <AlertCircle className="h-4 w-4 text-orange-600" />
-  }
-}
-
 export default function TasksPage() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Tasks</h2>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline">
-            Filter Tasks
-          </Button>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Add Task
-          </Button>
-        </div>
-      </div>
-
-      {/* Search and Filter */}
-      <div className="flex items-center space-x-2">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search tasks..." className="pl-8" />
-        </div>
-      </div>
-
-      {/* Tasks Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>All Tasks</CardTitle>
-          <CardDescription>
-            Manage your tasks and track progress.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Task</TableHead>
-                <TableHead>Assignee</TableHead>
-                <TableHead>Company</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead>Due Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {tasks.map((task) => (
-                <TableRow key={task.id}>
-                  <TableCell className="font-medium">
-                    <div>
-                      <div className="font-medium">{task.title}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {task.description}
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        Type: {task.type}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={task.assigneeAvatar} alt={task.assignee} />
-                        <AvatarFallback>{task.assigneeInitials}</AvatarFallback>
-                      </Avatar>
-                      <div className="font-medium">{task.assignee}</div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{task.company}</TableCell>
-                  <TableCell>
-                    <div className={`flex items-center ${getPriorityColor(task.priority)}`}>
-                      <Flag className="mr-1 h-3 w-3" />
-                      {task.priority}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center">
-                      <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
-                      {task.dueDate}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      {getStatusIcon(task.status)}
-                      <Badge 
-                        variant={
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">
+                  Customer Management
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Tasks</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <path d="M9 11H3l5-5 5 5M9 11v10" />
+                </svg>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">247</div>
+                <p className="text-xs text-muted-foreground">
+                  +12 from last week
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">In Progress</CardTitle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">89</div>
+                <p className="text-xs text-muted-foreground">
+                  36% of total tasks
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Completed</CardTitle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22,4 12,14.01 9,11.01" />
+                </svg>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">123</div>
+                <p className="text-xs text-muted-foreground">
+                  +8 from yesterday
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Overdue</CardTitle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-muted-foreground"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12,6 12,12 16,14" />
+                </svg>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">35</div>
+                <p className="text-xs text-muted-foreground">
+                  -2 from last week
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Tasks</CardTitle>
+                  <CardDescription>
+                    Manage your tasks and track progress.
+                  </CardDescription>
+                </div>
+                <Button>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Task
+                </Button>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search tasks..."
+                    className="pl-8"
+                  />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Task</TableHead>
+                    <TableHead>Assignee</TableHead>
+                    <TableHead>Priority</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Due Date</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {tasks.map((task) => (
+                    <TableRow key={task.id}>
+                      <TableCell className="font-medium">
+                        <div>
+                          <div className="font-medium">{task.title}</div>
+                          <div className="text-sm text-muted-foreground">{task.description}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-6 w-6">
+                            <AvatarImage src={task.avatar} alt={task.assignee} />
+                            <AvatarFallback>{task.initials}</AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm">{task.assignee}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={
+                          task.priority === "High" ? "destructive" : 
+                          task.priority === "Medium" ? "default" : 
+                          "secondary"
+                        }>
+                          {task.priority}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={
                           task.status === "Completed" ? "default" : 
                           task.status === "In Progress" ? "secondary" : 
                           "outline"
-                        }
-                      >
-                        {task.status}
-                      </Badge>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>
-                          <Edit className="mr-2 h-4 w-4" />
-                          Edit task
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <CheckCircle className="mr-2 h-4 w-4" />
-                          Mark complete
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Users className="mr-2 h-4 w-4" />
-                          Reassign
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600">
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete task
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Statistics Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
-            <Circle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{tasks.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Active tasks
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completed</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {tasks.filter(t => t.status === "Completed").length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {Math.round((tasks.filter(t => t.status === "Completed").length / tasks.length) * 100)}% completion rate
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">In Progress</CardTitle>
-            <Clock className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {tasks.filter(t => t.status === "In Progress").length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Currently active
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">High Priority</CardTitle>
-            <Flag className="h-4 w-4 text-red-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {tasks.filter(t => t.priority === "High").length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Urgent tasks
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+                        }>
+                          {task.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{task.dueDate}</TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem>Mark Complete</DropdownMenuItem>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 } 

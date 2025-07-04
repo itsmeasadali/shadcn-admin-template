@@ -1,171 +1,209 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Separator } from "@/components/ui/separator"
-import { 
-  Settings, 
-  User, 
-  Bell, 
-  Shield, 
-  Key, 
-  Palette, 
-  Globe,
-  Save
-} from "lucide-react"
 
 export default function SettingsPage() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
-        <Button>
-          <Save className="mr-2 h-4 w-4" />
-          Save Changes
-        </Button>
-      </div>
-
-      <Tabs defaultValue="general" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="general" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>General Settings</CardTitle>
-              <CardDescription>
-                Manage your general application preferences
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="company">Company Name</Label>
-                <Input id="company" defaultValue="Acme Corp" />
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">
+                  Settings
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>General</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          <div className="mx-auto grid w-full max-w-6xl gap-2">
+            <h1 className="text-3xl font-semibold">Settings</h1>
+          </div>
+          <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+            <nav className="grid gap-4 text-sm text-muted-foreground">
+              <a href="#" className="font-semibold text-primary">
+                General
+              </a>
+              <a href="#">Account</a>
+              <a href="#">Security</a>
+              <a href="#">Notifications</a>
+              <a href="#">Integrations</a>
+              <a href="#">API Keys</a>
+            </nav>
+            <div className="grid gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Company Information</CardTitle>
+                  <CardDescription>
+                    Update your company details and preferences.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid gap-3">
+                    <Label htmlFor="company-name">Company Name</Label>
+                    <Input
+                      id="company-name"
+                      placeholder="Enter company name"
+                      defaultValue="Acme Corp"
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="company-email">Company Email</Label>
+                    <Input
+                      id="company-email"
+                      placeholder="company@example.com"
+                      defaultValue="hello@acmecorp.com"
+                      type="email"
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="company-phone">Phone Number</Label>
+                    <Input
+                      id="company-phone"
+                      placeholder="+1 (555) 000-0000"
+                      defaultValue="+1 (555) 123-4567"
+                      type="tel"
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="company-address">Address</Label>
+                    <Textarea
+                      id="company-address"
+                      placeholder="Enter company address"
+                      defaultValue="123 Business St, San Francisco, CA 94105"
+                      className="min-h-[80px]"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Preferences</CardTitle>
+                  <CardDescription>
+                    Configure your application preferences.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="email-notifications">Email Notifications</Label>
+                      <div className="text-sm text-muted-foreground">
+                        Receive email notifications for important updates
+                      </div>
+                    </div>
+                    <Switch id="email-notifications" defaultChecked />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="marketing-emails">Marketing Emails</Label>
+                      <div className="text-sm text-muted-foreground">
+                        Receive emails about new features and updates
+                      </div>
+                    </div>
+                    <Switch id="marketing-emails" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="security-alerts">Security Alerts</Label>
+                      <div className="text-sm text-muted-foreground">
+                        Get notified about security-related activities
+                      </div>
+                    </div>
+                    <Switch id="security-alerts" defaultChecked />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="timezone">Timezone</Label>
+                    <Input
+                      id="timezone"
+                      placeholder="Select timezone"
+                      defaultValue="America/Los_Angeles"
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="date-format">Date Format</Label>
+                    <Input
+                      id="date-format"
+                      placeholder="Select date format"
+                      defaultValue="MM/DD/YYYY"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Billing Information</CardTitle>
+                  <CardDescription>
+                    Manage your billing details and subscription.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid gap-3">
+                    <Label htmlFor="billing-email">Billing Email</Label>
+                    <Input
+                      id="billing-email"
+                      placeholder="billing@example.com"
+                      defaultValue="billing@acmecorp.com"
+                      type="email"
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="tax-id">Tax ID</Label>
+                    <Input
+                      id="tax-id"
+                      placeholder="Enter tax ID"
+                      defaultValue="12-3456789"
+                    />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="billing-address">Billing Address</Label>
+                    <Textarea
+                      id="billing-address"
+                      placeholder="Enter billing address"
+                      defaultValue="123 Business St, San Francisco, CA 94105"
+                      className="min-h-[80px]"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+              <div className="flex gap-2">
+                <Button>Save Changes</Button>
+                <Button variant="outline">Cancel</Button>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="timezone">Timezone</Label>
-                <Input id="timezone" defaultValue="UTC-8 (Pacific Time)" />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Dark Mode</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Use dark theme across the application
-                  </p>
-                </div>
-                <Switch />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="account" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Account Information</CardTitle>
-              <CardDescription>
-                Update your account details and profile information
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" defaultValue="John Doe" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" defaultValue="john@example.com" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" defaultValue="+1 (555) 123-4567" />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="notifications" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Notification Preferences</CardTitle>
-              <CardDescription>
-                Choose what notifications you want to receive
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Email Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive notifications via email
-                  </p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>New Messages</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Get notified when you receive new messages
-                  </p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Payment Updates</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Notifications about payments and billing
-                  </p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="security" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Security Settings</CardTitle>
-              <CardDescription>
-                Manage your account security and privacy
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="current-password">Current Password</Label>
-                <Input id="current-password" type="password" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="new-password">New Password</Label>
-                <Input id="new-password" type="password" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirm New Password</Label>
-                <Input id="confirm-password" type="password" />
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Two-Factor Authentication</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Add an extra layer of security to your account
-                  </p>
-                </div>
-                <Switch />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+            </div>
+          </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }
