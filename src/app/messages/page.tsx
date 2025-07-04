@@ -1,192 +1,234 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Progress } from "@/components/ui/progress"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Textarea } from "@/components/ui/textarea"
 import { 
-  MessageSquare, 
+  MoreHorizontal, 
   Search, 
   Plus, 
-  Eye, 
-  Send, 
+  Filter, 
+  Download, 
+  Mail, 
+  MessageSquare,
+  Send,
   Reply,
   Forward,
+  Archive,
   Trash2,
   Star,
-  Archive,
-  Inbox,
-  Mail,
-  MailOpen,
   Clock,
   CheckCircle,
-  AlertCircle,
-  Filter,
+  XCircle,
+  Eye,
+  Edit,
+  Phone,
+  Video,
   Paperclip,
-  Flag
+  Users,
+  TrendingUp,
+  Calendar
 } from "lucide-react"
 
 const messages = [
   {
-    id: "msg_001",
-    from: "John Doe",
-    email: "john@example.com",
-    subject: "Question about Pro Plan features",
-    preview: "Hi, I'm interested in upgrading to the Pro plan and wanted to know more about...",
-    date: "2024-11-15",
-    status: "unread",
-    priority: "normal",
-    type: "support",
-    hasAttachment: false
+    id: "MSG-2024-001",
+    type: "Email",
+    subject: "Follow-up on Software License Proposal",
+    sender: {
+      name: "Sarah Johnson",
+      email: "sarah@techsolutions.com",
+      avatar: "/avatars/sarah.jpg"
+    },
+    recipient: {
+      name: "John Sales",
+      email: "john@company.com",
+      avatar: "/avatars/john.jpg"
+    },
+    company: "Tech Solutions Inc.",
+    status: "Sent",
+    priority: "High",
+    date: "2024-01-18",
+    time: "2:30 PM",
+    preview: "Thank you for your interest in our premium software license. I wanted to follow up on our discussion...",
+    threadCount: 3,
+    attachments: 2,
+    isRead: true,
+    isStarred: false
   },
   {
-    id: "msg_002",
-    from: "Jane Smith",
-    email: "jane@example.com",
-    subject: "Payment failed notification",
-    preview: "Hello, I received a notification that my payment failed. Could you please help...",
-    date: "2024-11-14",
-    status: "read",
-    priority: "high",
-    type: "billing",
-    hasAttachment: true
+    id: "MSG-2024-002",
+    type: "SMS",
+    subject: "Meeting Reminder",
+    sender: {
+      name: "Michael Chen",
+      email: "michael@designstudio.com",
+      avatar: "/avatars/michael.jpg"
+    },
+    recipient: {
+      name: "Jane Sales",
+      email: "jane@company.com",
+      avatar: "/avatars/jane.jpg"
+    },
+    company: "Design Studio Pro",
+    status: "Delivered",
+    priority: "Medium",
+    date: "2024-01-18",
+    time: "1:15 PM",
+    preview: "Hi Jane, just a reminder about our meeting tomorrow at 3 PM to discuss the design project.",
+    threadCount: 1,
+    attachments: 0,
+    isRead: false,
+    isStarred: true
   },
   {
-    id: "msg_003",
-    from: "Bob Johnson",
-    email: "bob@example.com",
-    subject: "Feature request: API rate limiting",
-    preview: "I would like to request a new feature for API rate limiting configuration...",
-    date: "2024-11-13",
-    status: "replied",
-    priority: "low",
-    type: "feature",
-    hasAttachment: false
+    id: "MSG-2024-003",
+    type: "Email",
+    subject: "Contract Review and Questions",
+    sender: {
+      name: "Emily Rodriguez",
+      email: "emily@marketing.com",
+      avatar: "/avatars/emily.jpg"
+    },
+    recipient: {
+      name: "Bob Legal",
+      email: "bob@company.com",
+      avatar: "/avatars/bob.jpg"
+    },
+    company: "Marketing Solutions",
+    status: "Draft",
+    priority: "Low",
+    date: "2024-01-17",
+    time: "4:45 PM",
+    preview: "I've reviewed the contract and have a few questions about the terms and conditions...",
+    threadCount: 1,
+    attachments: 1,
+    isRead: true,
+    isStarred: false
   },
   {
-    id: "msg_004",
-    from: "Alice Brown",
-    email: "alice@example.com",
-    subject: "Integration help needed",
-    preview: "We're having trouble integrating with our existing CRM system. Can you provide...",
-    date: "2024-11-12",
-    status: "read",
-    priority: "high",
-    type: "support",
-    hasAttachment: true
+    id: "MSG-2024-004",
+    type: "Call",
+    subject: "Discovery Call - Enterprise Solution",
+    sender: {
+      name: "David Thompson",
+      email: "david@globalent.com",
+      avatar: "/avatars/david.jpg"
+    },
+    recipient: {
+      name: "Alice Sales",
+      email: "alice@company.com",
+      avatar: "/avatars/alice.jpg"
+    },
+    company: "Global Enterprises",
+    status: "Completed",
+    priority: "High",
+    date: "2024-01-17",
+    time: "10:00 AM",
+    preview: "30-minute discovery call to discuss enterprise solution requirements and implementation timeline.",
+    threadCount: 1,
+    attachments: 0,
+    isRead: true,
+    isStarred: true
   },
   {
-    id: "msg_005",
-    from: "Charlie Wilson",
-    email: "charlie@example.com",
-    subject: "Thank you for the excellent service",
-    preview: "I just wanted to thank you for the excellent customer service. The team was...",
-    date: "2024-11-11",
-    status: "archived",
-    priority: "normal",
-    type: "feedback",
-    hasAttachment: false
-  },
-  {
-    id: "msg_006",
-    from: "Diana Lee",
-    email: "diana@example.com",
-    subject: "Billing inquiry",
-    preview: "I have a question about my recent invoice. Could you please clarify the charges...",
-    date: "2024-11-10",
-    status: "unread",
-    priority: "normal",
-    type: "billing",
-    hasAttachment: false
-  },
+    id: "MSG-2024-005",
+    type: "Email",
+    subject: "Payment Confirmation Required",
+    sender: {
+      name: "Lisa Wang",
+      email: "lisa@startup.com",
+      avatar: "/avatars/lisa.jpg"
+    },
+    recipient: {
+      name: "Tom Finance",
+      email: "tom@company.com",
+      avatar: "/avatars/tom.jpg"
+    },
+    company: "Startup Hub",
+    status: "Failed",
+    priority: "High",
+    date: "2024-01-16",
+    time: "3:20 PM",
+    preview: "We need to confirm the payment details for the recent invoice. There seems to be an issue...",
+    threadCount: 2,
+    attachments: 1,
+    isRead: false,
+    isStarred: false
+  }
 ]
 
-const sentMessages = [
-  {
-    id: "sent_001",
-    to: "John Doe",
-    email: "john@example.com",
-    subject: "Re: Question about Pro Plan features",
-    preview: "Thank you for your interest in our Pro plan. Here are the key features...",
-    date: "2024-11-15",
-    status: "sent",
-    type: "support"
-  },
-  {
-    id: "sent_002",
-    to: "Alice Brown",
-    email: "alice@example.com",
-    subject: "Re: Integration help needed",
-    preview: "I've reviewed your integration requirements. Here's a step-by-step guide...",
-    date: "2024-11-12",
-    status: "sent",
-    type: "support"
-  },
+const messageStats = [
+  { type: "Email", count: 1247, percentage: 68, sent: 856, received: 391 },
+  { type: "SMS", count: 324, percentage: 18, sent: 198, received: 126 },
+  { type: "Call", count: 156, percentage: 9, sent: 89, received: 67 },
+  { type: "Video", count: 89, percentage: 5, sent: 45, received: 44 }
 ]
-
-function getStatusBadge(status: string) {
-  switch (status) {
-    case "unread":
-      return <Badge variant="default" className="bg-blue-100 text-blue-800"><Mail className="mr-1 h-3 w-3" />Unread</Badge>
-    case "read":
-      return <Badge variant="secondary"><MailOpen className="mr-1 h-3 w-3" />Read</Badge>
-    case "replied":
-      return <Badge variant="default" className="bg-green-100 text-green-800"><Reply className="mr-1 h-3 w-3" />Replied</Badge>
-    case "archived":
-      return <Badge variant="outline"><Archive className="mr-1 h-3 w-3" />Archived</Badge>
-    case "sent":
-      return <Badge variant="default" className="bg-green-100 text-green-800"><Send className="mr-1 h-3 w-3" />Sent</Badge>
-    default:
-      return <Badge variant="secondary">{status}</Badge>
-  }
-}
-
-function getPriorityBadge(priority: string) {
-  switch (priority) {
-    case "high":
-      return <Badge variant="destructive"><Flag className="mr-1 h-3 w-3" />High</Badge>
-    case "normal":
-      return <Badge variant="secondary">Normal</Badge>
-    case "low":
-      return <Badge variant="outline">Low</Badge>
-    default:
-      return <Badge variant="secondary">{priority}</Badge>
-  }
-}
-
-function getTypeBadge(type: string) {
-  const colors = {
-    "support": "bg-blue-100 text-blue-800",
-    "billing": "bg-green-100 text-green-800",
-    "feature": "bg-purple-100 text-purple-800",
-    "feedback": "bg-orange-100 text-orange-800",
-    "general": "bg-gray-100 text-gray-800",
-  }
-  return <Badge variant="outline" className={colors[type as keyof typeof colors] || ""}>{type}</Badge>
-}
 
 export default function MessagesPage() {
-  const unreadCount = messages.filter(m => m.status === 'unread').length
-  const totalMessages = messages.length
-  const highPriorityCount = messages.filter(m => m.priority === 'high').length
-
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Messages</h2>
+    <>
+      <header className="flex h-16 shrink-0 items-center gap-2">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">
+                  Communication
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Messages</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Messages</h1>
+          <p className="text-muted-foreground">
+            Manage communications, track conversations, and analyze engagement.
+          </p>
+        </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
+          <Button variant="outline" size="sm">
+            <Download className="h-4 w-4 mr-2" />
+            Export
           </Button>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
+          <Button size="sm">
+            <Plus className="h-4 w-4 mr-2" />
             Compose
           </Button>
         </div>
       </div>
 
+      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -194,292 +236,308 @@ export default function MessagesPage() {
             <MessageSquare className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalMessages}</div>
+            <div className="text-2xl font-bold">1,816</div>
             <p className="text-xs text-muted-foreground">
-              +5 from last week
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unread</CardTitle>
-            <Mail className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{unreadCount}</div>
-            <p className="text-xs text-muted-foreground">
-              Requires attention
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">High Priority</CardTitle>
-            <Flag className="h-4 w-4 text-red-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{highPriorityCount}</div>
-            <p className="text-xs text-muted-foreground">
-              Urgent responses needed
+              <span className="text-green-600">+15%</span> from last month
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Response Rate</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-500" />
+            <Reply className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">94%</div>
+            <div className="text-2xl font-bold">87.3%</div>
             <p className="text-xs text-muted-foreground">
-              Avg response time: 2h
+              <span className="text-green-600">+3.2%</span> from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Avg Response Time</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">2.4h</div>
+            <p className="text-xs text-muted-foreground">
+              <span className="text-green-600">-18min</span> from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Threads</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">234</div>
+            <p className="text-xs text-muted-foreground">
+              <span className="text-blue-600">12</span> new today
             </p>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue="inbox" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="inbox">Inbox</TabsTrigger>
-          <TabsTrigger value="sent">Sent</TabsTrigger>
-          <TabsTrigger value="drafts">Drafts</TabsTrigger>
-          <TabsTrigger value="archived">Archived</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="inbox" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Inbox</CardTitle>
-              <CardDescription>
-                Manage incoming messages and support requests
-              </CardDescription>
-              <div className="flex items-center space-x-2">
-                <div className="relative">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search messages..." className="pl-8" />
+      {/* Communication Channels & Response Analytics */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Communication Channels</CardTitle>
+            <CardDescription>Message distribution by channel type</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {messageStats.map((stat) => (
+              <div key={stat.type} className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-medium">{stat.type}</span>
+                  <span>{stat.count} messages</span>
                 </div>
-                <Select>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter by status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Messages</SelectItem>
-                    <SelectItem value="unread">Unread</SelectItem>
-                    <SelectItem value="read">Read</SelectItem>
-                    <SelectItem value="replied">Replied</SelectItem>
-                    <SelectItem value="archived">Archived</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter by type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="support">Support</SelectItem>
-                    <SelectItem value="billing">Billing</SelectItem>
-                    <SelectItem value="feature">Feature Request</SelectItem>
-                    <SelectItem value="feedback">Feedback</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Progress value={stat.percentage} className="h-2" />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Sent: {stat.sent}</span>
+                  <span>Received: {stat.received}</span>
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>From</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Priority</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {messages.map((message) => (
-                    <TableRow key={message.id} className={message.status === 'unread' ? 'bg-muted/50' : ''}>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <div>
-                            <div className="font-medium">{message.from}</div>
-                            <div className="text-sm text-muted-foreground">{message.email}</div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <div>
-                            <div className="font-medium">{message.subject}</div>
-                            <div className="text-sm text-muted-foreground truncate max-w-[200px]">
-                              {message.preview}
-                            </div>
-                          </div>
-                          {message.hasAttachment && (
-                            <Paperclip className="h-4 w-4 text-muted-foreground" />
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>{getTypeBadge(message.type)}</TableCell>
-                      <TableCell>{getPriorityBadge(message.priority)}</TableCell>
-                      <TableCell>{new Date(message.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{getStatusBadge(message.status)}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Button variant="ghost" size="sm">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Reply className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Archive className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            ))}
+          </CardContent>
+        </Card>
 
-        <TabsContent value="sent" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Sent Messages</CardTitle>
-              <CardDescription>
-                View messages you've sent to customers
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>To</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {sentMessages.map((message) => (
-                    <TableRow key={message.id}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{message.to}</div>
-                          <div className="text-sm text-muted-foreground">{message.email}</div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Response Analytics</CardTitle>
+            <CardDescription>Communication effectiveness metrics</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span>Email Open Rate</span>
+                <span>68.4%</span>
+              </div>
+              <Progress value={68.4} className="h-2" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span>Email Click Rate</span>
+                <span>24.7%</span>
+              </div>
+              <Progress value={24.7} className="h-2" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span>Call Connection Rate</span>
+                <span>89.2%</span>
+              </div>
+              <Progress value={89.2} className="h-2" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span>SMS Delivery Rate</span>
+                <span>98.1%</span>
+              </div>
+              <Progress value={98.1} className="h-2" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Communication Timeline */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Communication Timeline</CardTitle>
+          <CardDescription>Message volume and engagement over time</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px] flex items-center justify-center bg-muted rounded-lg">
+            <div className="text-center">
+              <TrendingUp className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+              <p className="text-muted-foreground">Communication timeline chart would be displayed here</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Messages Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Message Center</CardTitle>
+          <CardDescription>
+            Manage all customer communications and track conversation history.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-2 mb-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search messages..." className="pl-8" />
+            </div>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="email">Email</SelectItem>
+                <SelectItem value="sms">SMS</SelectItem>
+                <SelectItem value="call">Call</SelectItem>
+                <SelectItem value="video">Video</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="sent">Sent</SelectItem>
+                <SelectItem value="delivered">Delivered</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="failed">Failed</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button variant="outline" size="sm">
+              <Filter className="h-4 w-4 mr-2" />
+              More Filters
+            </Button>
+          </div>
+
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Message</TableHead>
+                  <TableHead>Contact</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Priority</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Thread</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {messages.map((message) => (
+                  <TableRow key={message.id} className={!message.isRead ? "bg-blue-50/50" : ""}>
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-1">
+                          {message.isStarred && <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />}
+                          {!message.isRead && <div className="h-2 w-2 bg-blue-500 rounded-full" />}
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>
+                        <div className="flex-1">
                           <div className="font-medium">{message.subject}</div>
-                          <div className="text-sm text-muted-foreground truncate max-w-[200px]">
+                          <div className="text-sm text-muted-foreground truncate max-w-md">
                             {message.preview}
                           </div>
                         </div>
-                      </TableCell>
-                      <TableCell>{getTypeBadge(message.type)}</TableCell>
-                      <TableCell>{new Date(message.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{getStatusBadge(message.status)}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Button variant="ghost" size="sm">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Forward className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="drafts" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Draft Messages</CardTitle>
-              <CardDescription>
-                Continue working on unsent messages
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No draft messages</p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="archived" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Archived Messages</CardTitle>
-              <CardDescription>
-                Previously archived messages
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>From</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {messages.filter(m => m.status === 'archived').map((message) => (
-                    <TableRow key={message.id}>
-                      <TableCell>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <Avatar>
+                          <AvatarImage src={message.sender.avatar} alt={message.sender.name} />
+                          <AvatarFallback>
+                            {message.sender.name.split(' ').map(n => n[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
                         <div>
-                          <div className="font-medium">{message.from}</div>
-                          <div className="text-sm text-muted-foreground">{message.email}</div>
+                          <div className="font-medium">{message.sender.name}</div>
+                          <div className="text-sm text-muted-foreground">{message.company}</div>
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{message.subject}</div>
-                          <div className="text-sm text-muted-foreground truncate max-w-[200px]">
-                            {message.preview}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        {message.type === 'Email' && <Mail className="h-4 w-4 text-blue-500" />}
+                        {message.type === 'SMS' && <MessageSquare className="h-4 w-4 text-green-500" />}
+                        {message.type === 'Call' && <Phone className="h-4 w-4 text-purple-500" />}
+                        {message.type === 'Video' && <Video className="h-4 w-4 text-orange-500" />}
+                        <span className="text-sm">{message.type}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={
+                        message.status === 'Sent' ? 'default' :
+                        message.status === 'Delivered' ? 'default' :
+                        message.status === 'Draft' ? 'secondary' :
+                        message.status === 'Failed' ? 'destructive' :
+                        message.status === 'Completed' ? 'default' : 'outline'
+                      }>
+                        {message.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={
+                        message.priority === 'High' ? 'destructive' :
+                        message.priority === 'Medium' ? 'default' :
+                        'secondary'
+                      }>
+                        {message.priority}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div>
+                        <div className="text-sm">{message.date}</div>
+                        <div className="text-xs text-muted-foreground">{message.time}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-sm">{message.threadCount}</span>
+                        {message.attachments > 0 && (
+                          <div className="flex items-center space-x-1">
+                            <Paperclip className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-xs text-muted-foreground">{message.attachments}</span>
                           </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>{getTypeBadge(message.type)}</TableCell>
-                      <TableCell>{new Date(message.date).toLocaleDateString()}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Button variant="ghost" size="sm">
-                            <Eye className="h-4 w-4" />
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="sm">
-                            <Inbox className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Eye className="mr-2 h-4 w-4" />
+                            View Message
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Reply className="mr-2 h-4 w-4" />
+                            Reply
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Forward className="mr-2 h-4 w-4" />
+                            Forward
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Star className="mr-2 h-4 w-4" />
+                            {message.isStarred ? 'Unstar' : 'Star'}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Archive className="mr-2 h-4 w-4" />
+                            Archive
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+        </div>
+      </div>
+    </>
   )
 } 

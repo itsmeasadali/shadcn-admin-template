@@ -3,21 +3,29 @@
 import * as React from "react"
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
+  Building2,
+  Calendar,
+  CreditCard,
+  DollarSign,
+  FileText,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  Home,
+  Mail,
+  Package,
+  Settings,
+  ShoppingCart,
+  Users,
+  UserCheck,
+  BarChart3,
+  MessageSquare,
+  Receipt,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -26,132 +34,159 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 
-// This is sample data.
+// CRM data structure
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "John Doe",
+    email: "john@company.com",
+    avatar: "/avatars/01.png",
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Acme Corp",
       logo: GalleryVerticalEnd,
       plan: "Enterprise",
     },
     {
-      name: "Acme Corp.",
+      name: "Acme Inc",
       logo: AudioWaveform,
       plan: "Startup",
     },
     {
-      name: "Evil Corp.",
-      logo: Command,
+      name: "Evil Corp",
+      logo: Building2,
       plan: "Free",
     },
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: Home,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Overview",
+          url: "/dashboard",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "Analytics",
+          url: "/dashboard/analytics",
         },
         {
-          title: "Settings",
-          url: "#",
+          title: "Reports",
+          url: "/dashboard/reports",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Customer Management",
       url: "#",
-      icon: Bot,
+      icon: Users,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Contacts",
+          url: "/contacts",
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: "Companies",
+          url: "/companies",
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: "Leads",
+          url: "/leads",
+        },
+        {
+          title: "Tasks",
+          url: "/tasks",
+        },
+        {
+          title: "Calendar",
+          url: "/calendar",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Sales & Commerce",
       url: "#",
-      icon: BookOpen,
+      icon: ShoppingCart,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Products",
+          url: "/products",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "Orders",
+          url: "/orders",
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: "Invoices",
+          url: "/invoices",
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: "Payments",
+          url: "/payments",
         },
       ],
     },
     {
-      title: "Settings",
+      title: "Communication",
       url: "#",
-      icon: Settings2,
+      icon: MessageSquare,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "Messages",
+          url: "/messages",
         },
         {
-          title: "Team",
-          url: "#",
+          title: "Email Campaigns",
+          url: "/campaigns",
         },
+        {
+          title: "Templates",
+          url: "/templates",
+        },
+      ],
+    },
+    {
+      title: "Billing & Finance",
+      url: "#",
+      icon: CreditCard,
+      items: [
         {
           title: "Billing",
-          url: "#",
+          url: "/billing",
         },
         {
-          title: "Limits",
-          url: "#",
+          title: "Charges",
+          url: "/billing/charges",
+        },
+        {
+          title: "Subscriptions",
+          url: "/billing/subscriptions",
+        },
+        {
+          title: "Revenue",
+          url: "/billing/revenue",
         },
       ],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      name: "Q1 Sales Campaign",
+      url: "/projects/q1-sales",
+      icon: BarChart3,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
+      name: "Customer Onboarding",
+      url: "/projects/onboarding",
+      icon: UserCheck,
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Product Launch",
+      url: "/projects/product-launch",
+      icon: Package,
     },
   ],
 }
@@ -167,6 +202,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
+        <div className="flex items-center justify-between p-2">
+          <ThemeSwitcher />
+        </div>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />

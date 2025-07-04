@@ -1,143 +1,192 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Progress } from "@/components/ui/progress"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { 
-  Package, 
+  MoreHorizontal, 
   Search, 
   Plus, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  TrendingUp, 
-  TrendingDown,
+  Filter, 
+  Download, 
+  Package, 
+  ShoppingCart, 
+  DollarSign,
+  TrendingUp,
+  Star,
+  Edit,
+  Trash2,
+  Eye,
+  Copy,
   AlertTriangle,
   CheckCircle,
-  ShoppingCart,
-  DollarSign,
+  XCircle,
   BarChart3,
-  Filter
+  Image as ImageIcon
 } from "lucide-react"
 
 const products = [
   {
-    id: "prod_001",
-    name: "Pro CRM License",
-    description: "Annual subscription for Pro CRM features",
+    id: 1,
+    name: "Premium Software License",
     category: "Software",
-    price: 99.00,
-    stock: 999,
-    status: "active",
+    sku: "PSL-001",
+    price: "$299.99",
+    cost: "$89.99",
+    stock: 150,
+    lowStockThreshold: 20,
+    status: "Active",
     sales: 245,
-    revenue: 24255.00,
-    image: "/api/placeholder/64/64"
+    revenue: "$73,497.55",
+    rating: 4.8,
+    reviews: 89,
+    image: "/products/software.jpg",
+    description: "Advanced software solution for enterprise clients",
+    lastUpdated: "2024-01-15"
   },
   {
-    id: "prod_002",
-    name: "Enterprise CRM License",
-    description: "Enterprise-grade CRM solution",
-    category: "Software",
-    price: 299.00,
-    stock: 999,
-    status: "active",
-    sales: 89,
-    revenue: 26611.00,
-    image: "/api/placeholder/64/64"
-  },
-  {
-    id: "prod_003",
-    name: "API Credits Pack",
-    description: "Additional API calls for heavy usage",
-    category: "Add-ons",
-    price: 19.99,
-    stock: 999,
-    status: "active",
-    sales: 156,
-    revenue: 3118.44,
-    image: "/api/placeholder/64/64"
-  },
-  {
-    id: "prod_004",
-    name: "Premium Support",
-    description: "24/7 priority support service",
+    id: 2,
+    name: "Professional Consulting Package",
     category: "Services",
-    price: 49.99,
-    stock: 999,
-    status: "active",
+    sku: "PCP-002",
+    price: "$2,499.99",
+    cost: "$799.99",
+    stock: 25,
+    lowStockThreshold: 5,
+    status: "Active",
     sales: 67,
-    revenue: 3349.33,
-    image: "/api/placeholder/64/64"
+    revenue: "$167,499.33",
+    rating: 4.9,
+    reviews: 34,
+    image: "/products/consulting.jpg",
+    description: "Comprehensive consulting services for business transformation",
+    lastUpdated: "2024-01-16"
   },
   {
-    id: "prod_005",
-    name: "Data Migration Service",
-    description: "Professional data migration assistance",
-    category: "Services",
-    price: 199.99,
-    stock: 50,
-    status: "low_stock",
+    id: 3,
+    name: "Basic Training Course",
+    category: "Education",
+    sku: "BTC-003",
+    price: "$99.99",
+    cost: "$29.99",
+    stock: 8,
+    lowStockThreshold: 10,
+    status: "Low Stock",
+    sales: 412,
+    revenue: "$41,199.88",
+    rating: 4.6,
+    reviews: 156,
+    image: "/products/training.jpg",
+    description: "Fundamental training course for new users",
+    lastUpdated: "2024-01-14"
+  },
+  {
+    id: 4,
+    name: "Enterprise Solution Bundle",
+    category: "Software",
+    sku: "ESB-004",
+    price: "$4,999.99",
+    cost: "$1,499.99",
+    stock: 45,
+    lowStockThreshold: 10,
+    status: "Active",
     sales: 23,
-    revenue: 4599.77,
-    image: "/api/placeholder/64/64"
+    revenue: "$114,999.77",
+    rating: 4.7,
+    reviews: 12,
+    image: "/products/enterprise.jpg",
+    description: "Complete enterprise software bundle with premium support",
+    lastUpdated: "2024-01-16"
   },
   {
-    id: "prod_006",
-    name: "Custom Integration",
-    description: "Bespoke integration development",
-    category: "Services",
-    price: 999.99,
-    stock: 10,
-    status: "low_stock",
-    sales: 8,
-    revenue: 7999.92,
-    image: "/api/placeholder/64/64"
-  },
+    id: 5,
+    name: "Mobile App License",
+    category: "Software",
+    sku: "MAL-005",
+    price: "$49.99",
+    cost: "$14.99",
+    stock: 0,
+    lowStockThreshold: 50,
+    status: "Out of Stock",
+    sales: 678,
+    revenue: "$33,896.22",
+    rating: 4.4,
+    reviews: 234,
+    image: "/products/mobile.jpg",
+    description: "Mobile application license for iOS and Android",
+    lastUpdated: "2024-01-12"
+  }
 ]
 
-function getStatusBadge(status: string) {
-  switch (status) {
-    case "active":
-      return <Badge variant="default" className="bg-green-100 text-green-800"><CheckCircle className="mr-1 h-3 w-3" />Active</Badge>
-    case "inactive":
-      return <Badge variant="secondary">Inactive</Badge>
-    case "low_stock":
-      return <Badge variant="destructive"><AlertTriangle className="mr-1 h-3 w-3" />Low Stock</Badge>
-    case "out_of_stock":
-      return <Badge variant="destructive">Out of Stock</Badge>
-    default:
-      return <Badge variant="secondary">{status}</Badge>
-  }
-}
-
-function getCategoryBadge(category: string) {
-  const colors = {
-    "Software": "bg-blue-100 text-blue-800",
-    "Add-ons": "bg-purple-100 text-purple-800",
-    "Services": "bg-orange-100 text-orange-800",
-    "Hardware": "bg-gray-100 text-gray-800",
-  }
-  return <Badge variant="outline" className={colors[category as keyof typeof colors] || ""}>{category}</Badge>
-}
+const topCategories = [
+  { name: "Software", products: 45, revenue: "$245,000", growth: "+18%" },
+  { name: "Services", products: 23, revenue: "$189,000", growth: "+24%" },
+  { name: "Education", products: 12, revenue: "$78,000", growth: "+12%" },
+  { name: "Hardware", products: 8, revenue: "$45,000", growth: "+6%" }
+]
 
 export default function ProductsPage() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Products</h2>
+    <>
+      <header className="flex h-16 shrink-0 items-center gap-2">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">
+                  Sales & Commerce
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Products</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Products</h1>
+          <p className="text-muted-foreground">
+            Manage your product catalog, inventory, and sales performance.
+          </p>
+        </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
+          <Button variant="outline" size="sm">
+            <Download className="h-4 w-4 mr-2" />
+            Export
           </Button>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
+          <Button size="sm">
+            <Plus className="h-4 w-4 mr-2" />
             Add Product
           </Button>
         </div>
       </div>
 
+      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -145,23 +194,9 @@ export default function ProductsPage() {
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{products.length}</div>
+            <div className="text-2xl font-bold">1,234</div>
             <p className="text-xs text-muted-foreground">
-              +2 from last month
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${products.reduce((sum, p) => sum + p.revenue, 0).toLocaleString()}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              +12% from last month
+              <span className="text-green-600">+12%</span> from last month
             </p>
           </CardContent>
         </Card>
@@ -171,38 +206,130 @@ export default function ProductsPage() {
             <ShoppingCart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {products.reduce((sum, p) => sum + p.sales, 0)}
-            </div>
+            <div className="text-2xl font-bold">5,678</div>
             <p className="text-xs text-muted-foreground">
-              +8% from last month
+              <span className="text-green-600">+18%</span> from last month
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Low Stock Items</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-orange-500" />
+            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {products.filter(p => p.status === 'low_stock').length}
-            </div>
+            <div className="text-2xl font-bold">$431K</div>
             <p className="text-xs text-muted-foreground">
-              Requires attention
+              <span className="text-green-600">+22%</span> from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Avg Rating</CardTitle>
+            <Star className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">4.7</div>
+            <p className="text-xs text-muted-foreground">
+              <span className="text-green-600">+0.2</span> from last month
             </p>
           </CardContent>
         </Card>
       </div>
 
+      {/* Category Performance & Inventory Status */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Top Categories</CardTitle>
+            <CardDescription>Performance by product category</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {topCategories.map((category) => (
+              <div key={category.name} className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <div className="font-medium">{category.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {category.products} products
+                  </div>
+                </div>
+                <div className="text-right space-y-1">
+                  <div className="font-medium">{category.revenue}</div>
+                  <div className="text-sm text-green-600">{category.growth}</div>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Inventory Status</CardTitle>
+            <CardDescription>Current stock levels overview</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="flex items-center">
+                  <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                  In Stock
+                </span>
+                <span>892 products</span>
+              </div>
+              <Progress value={72} className="h-2" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="flex items-center">
+                  <AlertTriangle className="h-4 w-4 text-yellow-500 mr-2" />
+                  Low Stock
+                </span>
+                <span>234 products</span>
+              </div>
+              <Progress value={19} className="h-2" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="flex items-center">
+                  <XCircle className="h-4 w-4 text-red-500 mr-2" />
+                  Out of Stock
+                </span>
+                <span>108 products</span>
+              </div>
+              <Progress value={9} className="h-2" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Product Performance Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Sales Performance</CardTitle>
+          <CardDescription>Monthly sales trends and revenue</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px] flex items-center justify-center bg-muted rounded-lg">
+            <div className="text-center">
+              <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+              <p className="text-muted-foreground">Sales chart would be displayed here</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Products Table */}
       <Card>
         <CardHeader>
           <CardTitle>Product Catalog</CardTitle>
           <CardDescription>
-            Manage your product inventory and pricing
+            Comprehensive list of all products with inventory and performance data.
           </CardDescription>
-          <div className="flex items-center space-x-2">
-            <div className="relative">
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-2 mb-4">
+            <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input placeholder="Search products..." className="pl-8" />
             </div>
@@ -213,8 +340,8 @@ export default function ProductsPage() {
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
                 <SelectItem value="software">Software</SelectItem>
-                <SelectItem value="add-ons">Add-ons</SelectItem>
                 <SelectItem value="services">Services</SelectItem>
+                <SelectItem value="education">Education</SelectItem>
                 <SelectItem value="hardware">Hardware</SelectItem>
               </SelectContent>
             </Select>
@@ -225,66 +352,137 @@ export default function ProductsPage() {
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-                <SelectItem value="low_stock">Low Stock</SelectItem>
-                <SelectItem value="out_of_stock">Out of Stock</SelectItem>
+                <SelectItem value="low-stock">Low Stock</SelectItem>
+                <SelectItem value="out-of-stock">Out of Stock</SelectItem>
               </SelectContent>
             </Select>
+            <Button variant="outline" size="sm">
+              <Filter className="h-4 w-4 mr-2" />
+              More Filters
+            </Button>
           </div>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Product</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Stock</TableHead>
-                <TableHead>Sales</TableHead>
-                <TableHead>Revenue</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {products.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell>
-                    <div className="flex items-center space-x-3">
-                      <div className="h-10 w-10 rounded-md bg-muted flex items-center justify-center">
-                        <Package className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div>
-                        <div className="font-medium">{product.name}</div>
-                        <div className="text-sm text-muted-foreground">{product.description}</div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{getCategoryBadge(product.category)}</TableCell>
-                  <TableCell>${product.price.toFixed(2)}</TableCell>
-                  <TableCell>{product.stock}</TableCell>
-                  <TableCell>{product.sales}</TableCell>
-                  <TableCell>${product.revenue.toLocaleString()}</TableCell>
-                  <TableCell>{getStatusBadge(product.status)}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center justify-end space-x-2">
-                      <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
+
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Product</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Stock</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Sales</TableHead>
+                  <TableHead>Revenue</TableHead>
+                  <TableHead>Rating</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {products.map((product) => (
+                  <TableRow key={product.id}>
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={product.image} alt={product.name} />
+                          <AvatarFallback>
+                            <ImageIcon className="h-4 w-4" />
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium">{product.name}</div>
+                          <div className="text-sm text-muted-foreground">
+                            SKU: {product.sku}
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{product.category}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div>
+                        <div className="font-medium">{product.price}</div>
+                        <div className="text-sm text-muted-foreground">
+                          Cost: {product.cost}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <div className="font-medium">{product.stock} units</div>
+                        {product.stock <= product.lowStockThreshold && (
+                          <div className="text-xs text-red-600">
+                            Low stock warning
+                          </div>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={
+                        product.status === 'Active' ? 'default' :
+                        product.status === 'Low Stock' ? 'secondary' :
+                        product.status === 'Out of Stock' ? 'destructive' : 'outline'
+                      }>
+                        {product.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">{product.sales}</div>
+                      <div className="text-sm text-muted-foreground">units sold</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium text-green-600">{product.revenue}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-1">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span className="font-medium">{product.rating}</span>
+                        <span className="text-sm text-muted-foreground">
+                          ({product.reviews})
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Eye className="mr-2 h-4 w-4" />
+                            View Details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Product
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Copy className="mr-2 h-4 w-4" />
+                            Duplicate Product
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <BarChart3 className="mr-2 h-4 w-4" />
+                            View Analytics
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete Product
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
-    </div>
+        </div>
+      </div>
+    </>
   )
 } 
