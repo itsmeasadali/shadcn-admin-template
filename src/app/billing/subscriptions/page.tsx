@@ -1,3 +1,6 @@
+"use client"
+
+import * as React from "react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -39,6 +42,15 @@ import {
   XCircle,
   BarChart3
 } from "lucide-react"
+import { Area, AreaChart, Line, LineChart, Pie, PieChart, Cell, CartesianGrid, XAxis, YAxis } from "recharts"
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 
 const subscriptions = [
   {
@@ -138,6 +150,109 @@ const subscriptions = [
     lastPayment: "N/A"
   }
 ]
+
+// MRR growth data
+const mrrGrowthData = [
+  { month: "Jan", mrr: 22000, newMrr: 3500, churnMrr: 800, netMrr: 2700 },
+  { month: "Feb", mrr: 24700, newMrr: 4200, churnMrr: 950, netMrr: 3250 },
+  { month: "Mar", mrr: 27950, newMrr: 3800, churnMrr: 750, netMrr: 3050 },
+  { month: "Apr", mrr: 31000, newMrr: 4500, churnMrr: 1200, netMrr: 3300 },
+  { month: "May", mrr: 34300, newMrr: 3900, churnMrr: 600, netMrr: 3300 },
+  { month: "Jun", mrr: 37600, newMrr: 4100, churnMrr: 800, netMrr: 3300 },
+]
+
+const mrrGrowthConfig = {
+  mrr: {
+    label: "Total MRR",
+    theme: {
+      light: "hsl(var(--chart-1))",
+      dark: "hsl(var(--chart-1))",
+    },
+  },
+  newMrr: {
+    label: "New MRR",
+    theme: {
+      light: "hsl(var(--chart-2))",
+      dark: "hsl(var(--chart-2))",
+    },
+  },
+  churnMrr: {
+    label: "Churned MRR",
+    theme: {
+      light: "hsl(var(--chart-3))",
+      dark: "hsl(var(--chart-3))",
+    },
+  },
+} satisfies ChartConfig
+
+// Subscription plans data
+const subscriptionPlansData = [
+  { plan: "Basic", subscribers: 245, fill: "hsl(var(--chart-1))" },
+  { plan: "Professional", subscribers: 387, fill: "hsl(var(--chart-2))" },
+  { plan: "Enterprise", subscribers: 156, fill: "hsl(var(--chart-3))" },
+  { plan: "Custom", subscribers: 59, fill: "hsl(var(--chart-4))" },
+]
+
+const subscriptionPlansConfig = {
+  subscribers: {
+    label: "Subscribers",
+  },
+  basic: {
+    label: "Basic",
+    theme: {
+      light: "hsl(var(--chart-1))",
+      dark: "hsl(var(--chart-1))",
+    },
+  },
+  professional: {
+    label: "Professional",
+    theme: {
+      light: "hsl(var(--chart-2))",
+      dark: "hsl(var(--chart-2))",
+    },
+  },
+  enterprise: {
+    label: "Enterprise",
+    theme: {
+      light: "hsl(var(--chart-3))",
+      dark: "hsl(var(--chart-3))",
+    },
+  },
+  custom: {
+    label: "Custom",
+    theme: {
+      light: "hsl(var(--chart-4))",
+      dark: "hsl(var(--chart-4))",
+    },
+  },
+} satisfies ChartConfig
+
+// Churn analysis data
+const churnAnalysisData = [
+  { month: "Jan", churnRate: 5.2, targetChurn: 5.0, newSubscribers: 45, cancelledSubscribers: 18 },
+  { month: "Feb", churnRate: 4.8, targetChurn: 5.0, newSubscribers: 52, cancelledSubscribers: 21 },
+  { month: "Mar", churnRate: 3.9, targetChurn: 5.0, newSubscribers: 48, cancelledSubscribers: 16 },
+  { month: "Apr", churnRate: 4.5, targetChurn: 5.0, newSubscribers: 58, cancelledSubscribers: 24 },
+  { month: "May", churnRate: 3.2, targetChurn: 5.0, newSubscribers: 47, cancelledSubscribers: 13 },
+  { month: "Jun", churnRate: 4.1, targetChurn: 5.0, newSubscribers: 54, cancelledSubscribers: 19 },
+]
+
+const churnAnalysisConfig = {
+  churnRate: {
+    label: "Churn Rate",
+    theme: {
+      light: "hsl(var(--chart-1))",
+      dark: "hsl(var(--chart-1))",
+    },
+  },
+  targetChurn: {
+    label: "Target Churn",
+    theme: {
+      light: "hsl(var(--chart-2))",
+      dark: "hsl(var(--chart-2))",
+    },
+  },
+} satisfies ChartConfig
 
 export default function SubscriptionsPage() {
   return (
@@ -240,22 +355,164 @@ export default function SubscriptionsPage() {
             </Card>
           </div>
 
-          {/* Subscription Analytics Placeholder */}
+          {/* Subscription Analytics */}
+          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>MRR Growth</CardTitle>
+                <CardDescription>Monthly recurring revenue trends and growth</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer
+                  config={mrrGrowthConfig}
+                  className="aspect-auto h-[300px] w-full"
+                >
+                  <AreaChart data={mrrGrowthData}>
+                    <defs>
+                      <linearGradient id="fillMrr" x1="0" y1="0" x2="0" y2="1">
+                        <stop
+                          offset="5%"
+                          stopColor="var(--color-mrr)"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="var(--color-mrr)"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                      <linearGradient id="fillNewMrr" x1="0" y1="0" x2="0" y2="1">
+                        <stop
+                          offset="5%"
+                          stopColor="var(--color-newMrr)"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="var(--color-newMrr)"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                      dataKey="month"
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      minTickGap={32}
+                    />
+                    <ChartTooltip
+                      cursor={false}
+                      content={
+                        <ChartTooltipContent
+                          indicator="dot"
+                          labelFormatter={(value) => `${value} 2024`}
+                        />
+                      }
+                    />
+                    <Area
+                      dataKey="mrr"
+                      type="natural"
+                      fill="url(#fillMrr)"
+                      stroke="var(--color-mrr)"
+                      stackId="a"
+                    />
+                    <Area
+                      dataKey="newMrr"
+                      type="natural"
+                      fill="url(#fillNewMrr)"
+                      stroke="var(--color-newMrr)"
+                      stackId="b"
+                    />
+                    <ChartLegend content={<ChartLegendContent />} />
+                  </AreaChart>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Subscription Plans</CardTitle>
+                <CardDescription>Distribution of subscribers by plan type</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer
+                  config={subscriptionPlansConfig}
+                  className="mx-auto aspect-square max-h-[300px]"
+                >
+                  <PieChart>
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent hideLabel />}
+                    />
+                    <Pie
+                      data={subscriptionPlansData}
+                      dataKey="subscribers"
+                      nameKey="plan"
+                      innerRadius={60}
+                      strokeWidth={5}
+                    >
+                      {subscriptionPlansData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <ChartLegend
+                      content={<ChartLegendContent nameKey="plan" />}
+                      className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+                    />
+                  </PieChart>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Churn Analysis */}
           <Card>
             <CardHeader>
-              <CardTitle>Subscription Analytics</CardTitle>
-              <CardDescription>
-                MRR trends, churn analysis, and subscription distribution
-              </CardDescription>
+              <CardTitle>Churn Analysis</CardTitle>
+              <CardDescription>Monthly churn rate trends and targets</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] w-full bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <BarChart3 className="h-16 w-16 text-purple-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300">Subscription Dashboard</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Advanced subscription analytics and charts coming soon...</p>
-                </div>
-              </div>
+              <ChartContainer
+                config={churnAnalysisConfig}
+                className="aspect-auto h-[300px] w-full"
+              >
+                <LineChart data={churnAnalysisData}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                  />
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tickFormatter={(value) => `${value}%`}
+                  />
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent />}
+                  />
+                  <Line
+                    dataKey="churnRate"
+                    type="monotone"
+                    stroke="var(--color-churnRate)"
+                    strokeWidth={2}
+                    dot={{ fill: "var(--color-churnRate)" }}
+                  />
+                  <Line
+                    dataKey="targetChurn"
+                    type="monotone"
+                    stroke="var(--color-targetChurn)"
+                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                    dot={{ fill: "var(--color-targetChurn)" }}
+                  />
+                </LineChart>
+              </ChartContainer>
             </CardContent>
           </Card>
 

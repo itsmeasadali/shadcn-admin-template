@@ -1,3 +1,6 @@
+"use client"
+
+import * as React from "react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,8 +18,95 @@ import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CalendarDays, DollarSign, Users, TrendingUp, Activity, CreditCard, Download, ArrowUpRight } from "lucide-react"
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+// Revenue data for area chart
+const revenueData = [
+  { month: "Jan", revenue: 42000, subscriptions: 28000, sales: 14000 },
+  { month: "Feb", revenue: 45000, subscriptions: 31000, sales: 14000 },
+  { month: "Mar", revenue: 48000, subscriptions: 33000, sales: 15000 },
+  { month: "Apr", revenue: 52000, subscriptions: 36000, sales: 16000 },
+  { month: "May", revenue: 55000, subscriptions: 38000, sales: 17000 },
+  { month: "Jun", revenue: 58000, subscriptions: 40000, sales: 18000 },
+]
+
+const revenueChartConfig = {
+  revenue: {
+    label: "Total Revenue",
+    theme: {
+      light: "hsl(var(--chart-1))",
+      dark: "hsl(var(--chart-1))",
+    },
+  },
+  subscriptions: {
+    label: "Subscriptions",
+    theme: {
+      light: "hsl(var(--chart-2))",
+      dark: "hsl(var(--chart-2))",
+    },
+  },
+  sales: {
+    label: "One-time Sales",
+    theme: {
+      light: "hsl(var(--chart-3))",
+      dark: "hsl(var(--chart-3))",
+    },
+  },
+} satisfies ChartConfig
+
+// Activity data for bar chart
+const activityData = [
+  { day: "Mon", users: 186, sessions: 245, pageViews: 892 },
+  { day: "Tue", users: 205, sessions: 267, pageViews: 1024 },
+  { day: "Wed", users: 237, sessions: 298, pageViews: 1156 },
+  { day: "Thu", users: 173, sessions: 221, pageViews: 823 },
+  { day: "Fri", users: 209, sessions: 276, pageViews: 1089 },
+  { day: "Sat", users: 214, sessions: 285, pageViews: 1134 },
+  { day: "Sun", users: 178, sessions: 234, pageViews: 876 },
+]
+
+const activityChartConfig = {
+  users: {
+    label: "Users",
+    theme: {
+      light: "hsl(var(--chart-1))",
+      dark: "hsl(var(--chart-1))",
+    },
+  },
+  sessions: {
+    label: "Sessions",
+    theme: {
+      light: "hsl(var(--chart-2))",
+      dark: "hsl(var(--chart-2))",
+    },
+  },
+  pageViews: {
+    label: "Page Views",
+    theme: {
+      light: "hsl(var(--chart-3))",
+      dark: "hsl(var(--chart-3))",
+    },
+  },
+} satisfies ChartConfig
 
 export default function DashboardPage() {
+  const [timeRange, setTimeRange] = React.useState("6m")
+
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2">
@@ -118,33 +208,125 @@ export default function DashboardPage() {
           {/* Charts and Data Section */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
             <Card className="col-span-4">
-              <CardHeader>
-                <CardTitle>Revenue Overview</CardTitle>
-                <CardDescription>Monthly revenue performance and trends</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[300px] w-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <TrendingUp className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Revenue Chart</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Interactive charts coming soon...</p>
-                  </div>
+              <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+                <div className="grid flex-1 gap-1">
+                  <CardTitle>Revenue Overview</CardTitle>
+                  <CardDescription>Monthly revenue performance and trends</CardDescription>
                 </div>
+                <Select value={timeRange} onValueChange={setTimeRange}>
+                  <SelectTrigger
+                    className="w-[160px] rounded-lg sm:ml-auto"
+                    aria-label="Select a value"
+                  >
+                    <SelectValue placeholder="Last 6 months" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl">
+                    <SelectItem value="6m" className="rounded-lg">
+                      Last 6 months
+                    </SelectItem>
+                    <SelectItem value="3m" className="rounded-lg">
+                      Last 3 months
+                    </SelectItem>
+                    <SelectItem value="1m" className="rounded-lg">
+                      Last month
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </CardHeader>
+              <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+                <ChartContainer
+                  config={revenueChartConfig}
+                  className="aspect-auto h-[250px] w-full"
+                >
+                  <AreaChart data={revenueData}>
+                    <defs>
+                      <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
+                        <stop
+                          offset="5%"
+                          stopColor="var(--color-revenue)"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="var(--color-revenue)"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                      <linearGradient id="fillSubscriptions" x1="0" y1="0" x2="0" y2="1">
+                        <stop
+                          offset="5%"
+                          stopColor="var(--color-subscriptions)"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="var(--color-subscriptions)"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                      dataKey="month"
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      minTickGap={32}
+                    />
+                    <ChartTooltip
+                      cursor={false}
+                      content={
+                        <ChartTooltipContent
+                          indicator="dot"
+                          labelFormatter={(value) => `${value} 2024`}
+                        />
+                      }
+                    />
+                    <Area
+                      dataKey="subscriptions"
+                      type="natural"
+                      fill="url(#fillSubscriptions)"
+                      stroke="var(--color-subscriptions)"
+                      stackId="a"
+                    />
+                    <Area
+                      dataKey="sales"
+                      type="natural"
+                      fill="var(--color-sales)"
+                      stroke="var(--color-sales)"
+                      stackId="a"
+                    />
+                    <ChartLegend content={<ChartLegendContent />} />
+                  </AreaChart>
+                </ChartContainer>
               </CardContent>
             </Card>
             <Card className="col-span-3">
               <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Latest business activities and updates</CardDescription>
+                <CardTitle>Weekly Activity</CardTitle>
+                <CardDescription>User engagement metrics for this week</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[300px] w-full bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <Activity className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Activity Chart</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Real-time data visualization</p>
-                  </div>
-                </div>
+                <ChartContainer
+                  config={activityChartConfig}
+                  className="aspect-auto h-[250px] w-full"
+                >
+                  <BarChart data={activityData}>
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                      dataKey="day"
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                    />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent indicator="dashed" />}
+                    />
+                    <Bar dataKey="users" fill="var(--color-users)" radius={4} />
+                    <Bar dataKey="sessions" fill="var(--color-sessions)" radius={4} />
+                  </BarChart>
+                </ChartContainer>
               </CardContent>
             </Card>
           </div>
@@ -200,11 +382,11 @@ export default function DashboardPage() {
                   </Button>
                   <Button variant="outline" className="w-full justify-start">
                     <CreditCard className="h-4 w-4 mr-2" />
-                    Create Invoice
+                    Process Payment
                   </Button>
                   <Button variant="outline" className="w-full justify-start">
                     <TrendingUp className="h-4 w-4 mr-2" />
-                    View Reports
+                    Generate Report
                   </Button>
                 </div>
               </CardContent>
@@ -212,53 +394,73 @@ export default function DashboardPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Performance Metrics</CardTitle>
+                <CardTitle className="text-base">Recent Transactions</CardTitle>
+                <CardDescription>
+                  Latest payment activities
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Avatar className="h-6 w-6">
+                        <AvatarFallback className="text-xs">AC</AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm">Acme Corp</span>
+                    </div>
+                    <span className="text-sm font-medium text-green-600">+$2,500</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Avatar className="h-6 w-6">
+                        <AvatarFallback className="text-xs">TC</AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm">Tech Co</span>
+                    </div>
+                    <span className="text-sm font-medium text-green-600">+$1,200</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Avatar className="h-6 w-6">
+                        <AvatarFallback className="text-xs">DS</AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm">Design Studio</span>
+                    </div>
+                    <span className="text-sm font-medium text-green-600">+$800</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Performance</CardTitle>
                 <CardDescription>
                   Key performance indicators
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span>Conversion Rate</span>
-                    <span>24.8%</span>
-                  </div>
-                  <Progress value={75} className="h-2" />
-                  <div className="flex items-center justify-between text-sm">
-                    <span>Customer Satisfaction</span>
-                    <span>94.2%</span>
-                  </div>
-                  <Progress value={94} className="h-2" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Recent Sales</CardTitle>
-                <CardDescription>
-                  Latest customer transactions
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
                 <div className="space-y-3">
-                  <div className="flex items-center">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback>OM</AvatarFallback>
-                    </Avatar>
-                    <div className="ml-3 space-y-1">
-                      <p className="text-sm font-medium">Olivia Martin</p>
-                      <p className="text-xs text-muted-foreground">$1,999.00</p>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <span>Customer Satisfaction</span>
+                      <span>94%</span>
                     </div>
+                    <Progress value={94} className="h-2" />
                   </div>
-                  <div className="flex items-center">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback>JL</AvatarFallback>
-                    </Avatar>
-                    <div className="ml-3 space-y-1">
-                      <p className="text-sm font-medium">Jackson Lee</p>
-                      <p className="text-xs text-muted-foreground">$39.00</p>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <span>Revenue Target</span>
+                      <span>78%</span>
                     </div>
+                    <Progress value={78} className="h-2" />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <span>User Retention</span>
+                      <span>87%</span>
+                    </div>
+                    <Progress value={87} className="h-2" />
                   </div>
                 </div>
               </CardContent>
